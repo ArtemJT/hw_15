@@ -5,6 +5,7 @@ import ua.hillel.fruits.Fruit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Box<T extends Fruit> {
 
@@ -27,20 +28,21 @@ public class Box<T extends Fruit> {
     }
 
     public boolean compare(Box<? extends Fruit> box) {
-        if (box != null) {
-            return this.getWeight() == box.getWeight();
-        }
-        return false;
+        checkOnNull(box);
+        return this.getWeight() == box.getWeight();
     }
 
     public void merge(Box<T> box) {
-        if (box != null) {
-            this.fruitBox.addAll(box.getFruitBox());
-        }
+        checkOnNull(box);
+        this.fruitBox.addAll(box.getFruitBox());
     }
 
     public List<T> getFruitBox() {
         return fruitBox;
+    }
+
+    private void checkOnNull(Box<?> box) {
+        if (Objects.isNull(box)) throw new IllegalArgumentException("Argument is NULL");
     }
 
     private List<T> toList(T[] array) {
